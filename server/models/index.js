@@ -11,13 +11,14 @@ module.exports = {
                       from messages left outer join users on (messages.userid = users.id) \
                       order by messages.id desc';
       db.query(queryStr, function(err, results) {
+        console.log(results);
         callback(err, results);
       });
     },
     post: function (params, callback) {
       // create a message for a user id based on the given username
       var queryStr = 'insert into messages(text, userid, roomname) \
-                      value (?, (select id from users where username = ? limit 1), ?)';
+                      values (?, (select id from users where username = ? limit 1), ?)';
       db.query(queryStr, params, function(err, results) {
         callback(err, results);
       });
